@@ -4,10 +4,11 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
+  const apiKey = process.env.REACT_APP_OPENAI_KEY;
   const [genrePrompt, setGenrePrompt] = useState("");
   const [story, setStory] = useState("Your journey is about to begin");
   const configuration = new Configuration({
-    apiKey: "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",
+    apiKey: apiKey,
   });
 
   const openai = new OpenAIApi(configuration);
@@ -15,7 +16,7 @@ function App() {
   const startAdventure = async () => {
     const start = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: `Start a adventure in a ${genrePrompt} setting. Give background of the world and explain how the adventurer found themselves at the crossroad`,
+      prompt: `Start a adventure in a ${genrePrompt} setting. Give background of the world and explain how the adventurer found themselves at the crossroad. Generate two options of what the adventurer can do`,
       n: 1,
       max_tokens: 4000,
     });
@@ -24,8 +25,6 @@ function App() {
   };
 
   const goOnAdventure = async (prompt) => {
-    console.log("Going on an adventure!");
-
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: `Adventurer standing at a crossroad, and looks ${prompt}. Describe what they are seeing`,

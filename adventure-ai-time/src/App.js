@@ -17,7 +17,7 @@ function App() {
   const startAdventure = async () => {
     const response = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: `Start a adventure in a ${genrePrompt} setting. Give background of the world and explain how the adventurer found themselves at the crossroad. At least three paragraphs for the description. Present two options, marked as Option 1 Option 2 in this format. Each Option should be no more than five words. Ideally a simple one word or binary options. Always include the options at the end of the generated text.`,
+      prompt: `Start a adventure in a ${genrePrompt} setting. Give background of the world and explain how the adventurer found themselves at the crossroad. At least three paragraphs for the description. Present two options, marked as Option 1 Option 2 in this format. Each Option should be no more than three words. Ideally a simple one word or binary options. Always include the options at the end of the generated text.`,
       n: 1,
       max_tokens: 2048,
     });
@@ -65,6 +65,7 @@ function App() {
               textAlign: "justify",
               fontSize: "0.75em",
               display: "grid",
+              justifyItems: "center"
             }}
           >
             {line}
@@ -105,7 +106,7 @@ function App() {
         <div>
           <button onClick={startAdventure}>BEGIN ADVENTURE</button>
         </div>
-        <div>{TextWithLineBreaks(story)}</div>
+        <div style={{width: "50%"}}>{TextWithLineBreaks(story)}</div>
         {options.length > 0 && <div>{choiceButtons(options)}</div>}
       </header>
     </div>

@@ -1,3 +1,4 @@
+import "./Styles/styling.css";
 import { Configuration, OpenAIApi } from "openai";
 import { useState } from "react";
 
@@ -65,7 +66,7 @@ function App() {
               textAlign: "justify",
               fontSize: "0.75em",
               display: "grid",
-              justifyItems: "center"
+              justifyItems: "center",
             }}
           >
             {line}
@@ -79,7 +80,11 @@ function App() {
     return (
       <div>
         {optionChoices.map((item, index) => (
-          <button key={index} onClick={() => continueAdventure(story, item)}>
+          <button
+            className="button"
+            key={index}
+            onClick={() => continueAdventure(story, item)}
+          >
             {item}
           </button>
         ))}
@@ -93,20 +98,31 @@ function App() {
         <h3>Adventure Time</h3>
         <h5>Choose your adventure</h5>
         <div>
-          <button onClick={() => setGenrePrompt("Science Fiction")}>
+          <button
+            className="button"
+            onClick={() => setGenrePrompt("Science Fiction")}
+          >
             Science Fiction
           </button>
-          <button onClick={() => setGenrePrompt("High Fantasy")}>
+          <button
+            className="button"
+            onClick={() => setGenrePrompt("High Fantasy")}
+          >
             High fantasy
           </button>
-          <button onClick={() => setGenrePrompt("Dark Fantasy")}>
+          <button
+            className="button"
+            onClick={() => setGenrePrompt("Dark Fantasy")}
+          >
             Dark fantasy
           </button>
         </div>
         <div>
-          <button onClick={startAdventure}>BEGIN ADVENTURE</button>
+          <button className="button" onClick={startAdventure}>
+            BEGIN ADVENTURE <span>&#9884;</span>
+          </button>
         </div>
-        <div style={{width: "50%"}}>{TextWithLineBreaks(story)}</div>
+        <div style={{ width: "50%" }}>{TextWithLineBreaks(story)}</div>
         {options.length > 0 && <div>{choiceButtons(options)}</div>}
       </header>
     </div>

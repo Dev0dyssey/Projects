@@ -9,13 +9,28 @@ function App() {
   const [genrePrompt, setGenrePrompt] = useState("");
   const [story, setStory] = useState("Your journey is about to begin");
   const [options, setOptions] = useState([]);
+  const [selectedGenreIndex, setSelectedGenreIndex] = useState(null);
+  const [imageSrc, setImageSrc] = useState(null);
+
   const configuration = new Configuration({
     apiKey: apiKey,
   });
 
   const openai = new OpenAIApi(configuration);
 
+  const generateImage = async () => {
+    const response = await openai.createImage({
+      prompt: `Background image for the story based on ${genrePrompt}. High detail digital art`,
+      n: 1,
+      size: "512x512",
+    });
+    let image_url = response.data.data[0].url;
+    setImageSrc(image_url);
+    console.log("Image URL:", image_url);
+  };
+
   const startAdventure = async () => {
+    generateImage();
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: `Start a adventure in a ${genrePrompt} setting. Give background of the world and explain how the adventurer found themselves at the crossroad. At least three paragraphs for the description. Present two options, marked as Option 1 Option 2 in this format. Each Option should be no more than three words. Ideally a simple one word or binary options. Always include the options at the end of the generated text.`,
@@ -43,6 +58,11 @@ function App() {
     let storyResponse = response.data.choices[0].text;
     updateAdventure(storyText[0]);
     getOptions(storyResponse);
+  };
+
+  const handleGenreClick = (index, genre) => {
+    setSelectedGenreIndex(index);
+    setGenrePrompt(genre);
   };
 
   const getOptions = (story) => {
@@ -97,31 +117,42 @@ function App() {
       <header className="App-header">
         <h3>Adventure Time</h3>
         <h5>Choose your adventure</h5>
-        <div>
-          <button
-            className="button"
-            onClick={() => setGenrePrompt("Science Fiction")}
-          >
-            Science Fiction
-          </button>
-          <button
-            className="button"
-            onClick={() => setGenrePrompt("High Fantasy")}
-          >
-            High fantasy
-          </button>
-          <button
-            className="button"
-            onClick={() => setGenrePrompt("Dark Fantasy")}
-          >
-            Dark fantasy
-          </button>
-        </div>
-        <div>
-          <button className="button" onClick={startAdventure}>
-            BEGIN ADVENTURE <span>&#9884;</span>
-          </button>
-        </div>
+        {imageSrc && <img src={imageSrc} alt="Background of the adventure" />}
+        {!options.length && (
+          <>
+            <div>
+              <button
+                className={`button ${
+                  selectedGenreIndex === 0 ? "selected" : ""
+                }`}
+                onClick={() => handleGenreClick(0, "Science Fiction")}
+              >
+                Science Fiction
+              </button>
+              <button
+                className={`button ${
+                  selectedGenreIndex === 1 ? "selected" : ""
+                }`}
+                onClick={() => handleGenreClick(1, "High Fantasy")}
+              >
+                High fantasy
+              </button>
+              <button
+                className={`button ${
+                  selectedGenreIndex === 2 ? "selected" : ""
+                }`}
+                onClick={() => handleGenreClick(2, "Dark Fantasy")}
+              >
+                Dark fantasy
+              </button>
+            </div>
+            <div>
+              <button className="button" onClick={startAdventure}>
+                BEGIN ADVENTURE <span>&#9884;</span>
+              </button>
+            </div>
+          </>
+        )}
         <div style={{ width: "50%" }}>{TextWithLineBreaks(story)}</div>
         {options.length > 0 && <div>{choiceButtons(options)}</div>}
       </header>

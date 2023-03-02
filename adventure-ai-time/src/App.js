@@ -31,14 +31,21 @@ function App() {
 
   const startAdventure = async () => {
     generateImage();
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: `Start a adventure in a ${genrePrompt} setting. Give background of the world and explain how the adventurer found themselves at the crossroad. At least three paragraphs for the description. Present two options, marked as Option 1 Option 2 in this format. Each Option should be no more than three words. Ideally a simple one word or binary options. Always include the options at the end of the generated text.`,
+
+    const response = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: "You are a narrator of an adventure story" },
+        {
+          role: "user",
+          content: `Start a adventure in a ${genrePrompt} setting. Give background of the world and explain how the adventurer found themselves at the crossroad. At least three paragraphs for the description. Present two options, marked as Option 1 Option 2 in this format. Each Option should be no more than three words. Ideally a simple one word or binary options. Always include the options at the end of the generated text.`,
+        },
+      ],
       n: 1,
-      max_tokens: 2048,
     });
-    let storyText = response.data.choices[0].text.split("Option");
-    let storyResponse = response.data.choices[0].text;
+
+    let storyText = response.data.choices[0].message.content.split("Option");
+    let storyResponse = response.data.choices[0].message.content;
     setStory(storyText[0]);
     getOptions(storyResponse);
   };
@@ -48,14 +55,19 @@ function App() {
   };
 
   const continueAdventure = async (prompt, option) => {
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: `${prompt}. continue the story based on ${option} with the new story being a minimum of two paragraphs. Include two options at end of text in the format Option 1 and Option 2, each option should be no more than three words`,
+    const response = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: "You are a narrator of an adventure story" },
+        {
+          role: "user",
+          content: `${prompt}. continue the story based on ${option}. Expand the story by several paragraphs. Include two options at end of text in the format Option 1 and Option 2, each option should be no more than three words`,
+        },
+      ],
       n: 1,
-      max_tokens: 2048,
     });
-    let storyText = response.data.choices[0].text.split("Option");
-    let storyResponse = response.data.choices[0].text;
+    let storyText = response.data.choices[0].message.content.split("Option");
+    let storyResponse = response.data.choices[0].message.content;
     updateAdventure(storyText[0]);
     getOptions(storyResponse);
   };

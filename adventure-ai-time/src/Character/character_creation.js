@@ -1,22 +1,44 @@
 import React from "react";
 import "./character_creation.css";
+import { Configuration, OpenAIApi } from "openai";
 import { useState } from "react";
 
-const CharacterCreation = () => {
+const CharacterCreation = (props) => {
+  const { genrePrompt } = props;
+  const apiKey = process.env.REACT_APP_OPENAI_KEY;
   const [characterName, setCharacterName] = useState("Nox");
   const [characterAge, setCharacterAge] = useState(0);
   const [characterGender, setCharacterGender] = useState("Male");
 
-  const nameCharacter = () => {
-    setCharacterName("Nox");
-  };
+  const configuration = new Configuration({
+    apiKey: apiKey,
+  });
 
-  const ageCharacter = (age) => {
-    setCharacterAge(age);
-  };
+  const openai = new OpenAIApi(configuration);
 
-  const genderCharacter = (choice) => {
-    setCharacterGender(choice);
+  const createCharacter = async () => {
+    // Console log out the character details
+    console.log("Character Name:", characterName);
+    console.log("Character Age:", characterAge);
+    console.log("Character Gender:", characterGender);
+    console.log("Genre Prompt:", genrePrompt);
+    const response = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content: "You are a narrator of an adventure, describing a new hero",
+        },
+        {
+          role: "user",
+          content: `The setting is ${genrePrompt}. Describe the character ${characterName} who is ${characterAge} years old and is a ${characterGender}.`,
+        },
+      ],
+      n: 1,
+    });
+
+    let characterDescription = response.data.choices[0].message.content;
+    console.log("Character Description:", characterDescription);
   };
 
   // Return a form to create a character
@@ -50,6 +72,9 @@ const CharacterCreation = () => {
             </select>
           </div>
         </form>
+        <div>
+          <button onClick={createCharacter}>Submit</button>
+        </div>
       </div>
     </>
   );

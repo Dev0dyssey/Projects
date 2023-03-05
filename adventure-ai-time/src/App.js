@@ -1,5 +1,5 @@
 import "./Styles/styling.css";
-import CharacterCreation from "./Character/character_creation.tsx";
+import CharacterCreation from "./Character/character_creation.js";
 import { Configuration, OpenAIApi } from "openai";
 import { useState } from "react";
 
@@ -131,7 +131,7 @@ function App() {
         <h3>Adventure Time</h3>
         <h5>Choose your adventure</h5>
         {imageSrc && <img src={imageSrc} alt="Background of the adventure" />}
-        <CharacterCreation />
+        <CharacterCreation genrePrompt={genrePrompt}/>
         {!options.length && (
           <>
             <div>

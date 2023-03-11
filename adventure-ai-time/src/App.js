@@ -65,6 +65,7 @@ function App() {
           content: `${prompt}. continue the story based on ${option}. Expand the story by several paragraphs. Include two options at end of text in the format Option 1 and Option 2, each option should be no more than three words`,
         },
       ],
+      temperature: 0.8,
       n: 1,
     });
     let storyText = response.data.choices[0].message.content.split("Option");

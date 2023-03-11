@@ -9,13 +9,14 @@ const CharacterCreation = (props) => {
   const [characterName, setCharacterName] = useState("Nox");
   const [characterAge, setCharacterAge] = useState(0);
   const [characterGender, setCharacterGender] = useState("Male");
+  const [characterDescription, setCharacterDescription] = useState("");
 
   const configuration = new Configuration({
     apiKey: apiKey,
   });
 
   const openai = new OpenAIApi(configuration);
-
+  
   const createCharacter = async () => {
     // Console log out the character details
     console.log("Character Name:", characterName);
@@ -38,7 +39,30 @@ const CharacterCreation = (props) => {
     });
 
     let characterDescription = response.data.choices[0].message.content;
+    setCharacterDescription(characterDescription);
     console.log("Character Description:", characterDescription);
+  };
+
+  const characterDescriptionText = (character) => {
+    const lines = character.split("\n");
+
+    return (
+      <>
+        {lines.map((line, index) => (
+          <p
+            key={index}
+            style={{
+              textAlign: "justify",
+              fontSize: "0.75em",
+              display: "grid",
+              justifyItems: "center",
+            }}
+          >
+            {line}
+          </p>
+        ))}
+      </>
+    );
   };
 
   // Return a form to create a character
@@ -73,7 +97,10 @@ const CharacterCreation = (props) => {
           </div>
         </form>
         <div>
-          <button onClick={createCharacter}>Submit</button>
+          <button onClick={createCharacter}>Create a character</button>
+          <div>
+            {characterDescriptionText(characterDescription)}
+          </div>
         </div>
       </div>
     </>

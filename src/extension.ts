@@ -43,11 +43,6 @@ async function refactorCode(code: string): Promise<string | undefined> {
     const response = await axios.post(
       OPENAI_API_URL,
       {
-        // prompt: prompt,
-        // max_tokens: 1000, // Adjust as needed
-        // n: 1,
-        // stop: null,
-        // temperature: 0.5,
         model: "gpt-3.5-turbo",
         messages: [
           { role: "system", content: "You are a development assistant" },

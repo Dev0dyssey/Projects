@@ -10,13 +10,14 @@ const CharacterCreation = (props) => {
   const [characterAge, setCharacterAge] = useState(0);
   const [characterGender, setCharacterGender] = useState("Male");
   const [characterDescription, setCharacterDescription] = useState("");
+  const [characterDescriptionSummary, setCharacterDescriptionSummary] = useState("");
 
   const configuration = new Configuration({
     apiKey: apiKey,
   });
 
   const openai = new OpenAIApi(configuration);
-  
+
   const createCharacter = async () => {
     // Console log out the character details
     console.log("Character Name:", characterName);
@@ -42,6 +43,36 @@ const CharacterCreation = (props) => {
     setCharacterDescription(characterDescription);
     console.log("Character Description:", characterDescription);
   };
+
+  const characterSummary = async (character) => {
+    const response = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a summary expert, providing bullet points to be able to generate a character image using an AI tool such as DALL-E or Midjourney",
+        },
+        {
+          role: "user",
+          content: `Given ${character}, provide a short summary which can be provided to AI image generator.`,
+        },
+      ],
+      n: 1,
+    });
+
+    setCharacterDescriptionSummary(response);
+  };
+
+  const createCharacterImage = async(characterImagePrompt) => {
+    const response = await openai.createImage({
+      prompt: `Character full body portrait, based on ${characterImagePrompt}, rendered as highdefinition digital art`,
+      n: 1,
+      size: "512x512",
+    });
+    let image_url = response.data.data[0].url;
+    console.log("Image URL:", image_url);
+  }
 
   const characterDescriptionText = (character) => {
     const lines = character.split("\n");
@@ -98,9 +129,7 @@ const CharacterCreation = (props) => {
         </form>
         <div>
           <button onClick={createCharacter}>Create a character</button>
-          <div>
-            {characterDescriptionText(characterDescription)}
-          </div>
+          <div>{characterDescriptionText(characterDescription)}</div>
         </div>
       </div>
     </>

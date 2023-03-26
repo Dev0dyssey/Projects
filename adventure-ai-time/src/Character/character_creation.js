@@ -41,6 +41,7 @@ const CharacterCreation = (props) => {
 
     let characterDescription = response.data.choices[0].message.content;
     setCharacterDescription(characterDescription);
+    characterSummary(characterDescription);
     console.log("Character Description:", characterDescription);
   };
 
@@ -51,7 +52,7 @@ const CharacterCreation = (props) => {
         {
           role: "system",
           content:
-            "You are a summary expert, providing bullet points to be able to generate a character image using an AI tool such as DALL-E or Midjourney",
+            "You are a summary expert, providing bullet points to be able to generate a character image using an AI tool such as DALL-E or Midjourney.",
         },
         {
           role: "user",
@@ -60,6 +61,7 @@ const CharacterCreation = (props) => {
       ],
       n: 1,
     });
+    console.log("Character Description Summary:", response.data.choices[0].message.content);
 
     setCharacterDescriptionSummary(response);
   };

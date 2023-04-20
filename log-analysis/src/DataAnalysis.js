@@ -1,4 +1,5 @@
 import React from 'react';
+import * as d3 from 'd3';
 
 const DataAnalysis = ({ data }) => {
   // Create an object to store the counts of repeating values
@@ -27,6 +28,16 @@ const DataAnalysis = ({ data }) => {
       repeatingValues.push({ property, value, repeats: repeatsCount });
     }
   }
+
+  const csvData = repeatingValues.map(({ key, value, count }) => `${key},${value},${count}`).join('\n');
+  fs.writeFile('data.csv', csvData, err => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log('Data saved to data.csv');
+    }
+  });
+
 
   // Render the analysis results as a list
   return (

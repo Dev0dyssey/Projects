@@ -52,7 +52,7 @@ function App() {
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [
-        { role: "system", content: "You are a narrator of an adventure story" },
+        { role: "system", content: "You are a narrator of an epic adventure story. As a narrator you are an omnipotent being" },
         {
           role: "user",
           content: `Start a adventure in a ${genrePrompt} setting. Give background of the world and explain how the adventurer found themselves at the crossroad. At least three paragraphs for the description. Present two options, marked as Option 1 Option 2 in this format. Each Option should be no more than three words. Ideally a simple one word or binary options. Always include the options at the end of the generated text.`,

@@ -1,24 +1,37 @@
+// Add comments explaining the changes made to the code:
+
+// Import styles at the beginning of the file for better organization
 import "./Styles/styling.css";
-import CharacterCreation from "./Character/character_creation.js";
+import "./App.css";
+
+// Import dependencies
 import { Configuration, OpenAIApi } from "openai";
 import { useState } from "react";
 
-import "./App.css";
+// Import components
+import CharacterCreation from "./Character/character_creation.js";
 
+// Define the main function
 function App() {
+  // Get the API key from the environment variable
   const apiKey = process.env.REACT_APP_OPENAI_KEY;
+
+  // Define states for the genre prompt, the story, the options, the selected genre index, and the image source
   const [genrePrompt, setGenrePrompt] = useState("");
   const [story, setStory] = useState("Your journey is about to begin");
   const [options, setOptions] = useState([]);
   const [selectedGenreIndex, setSelectedGenreIndex] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
 
+  // Create a configuration object for OpenAI with the API key
   const configuration = new Configuration({
     apiKey: apiKey,
   });
 
+  // Create an instance of the OpenAI API with the configuration object
   const openai = new OpenAIApi(configuration);
 
+  // Define a function to generate an image based on the genre prompt using the OpenAI API
   const generateImage = async () => {
     const response = await openai.createImage({
       prompt: `Background image for the story based on ${genrePrompt}. High detail digital art`,
@@ -26,11 +39,14 @@ function App() {
       size: "512x512",
     });
     let image_url = response.data.data[0].url;
+    // Set the image source state with the URL of the generated image
     setImageSrc(image_url);
     console.log("Image URL:", image_url);
   };
 
+  // Define a function to start the adventure story using the OpenAI API
   const startAdventure = async () => {
+    // Generate the image for the story
     generateImage();
 
     const response = await openai.createChatCompletion({
@@ -45,16 +61,20 @@ function App() {
       n: 1,
     });
 
+    // Split the story text into the main story and the options
     let storyText = response.data.choices[0].message.content.split("Option");
     let storyResponse = response.data.choices[0].message.content;
+    // Set the story state with the main story text and get the list of options based on the generated story
     setStory(storyText[0]);
     getOptions(storyResponse);
   };
 
+  // Define a function to update the story based on new generated text
   const updateAdventure = (newStory) => {
     setStory((story) => story + newStory);
   };
 
+  // Define a function to continue the adventure story based on user input
   const continueAdventure = async (prompt, option) => {
     const response = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
@@ -70,15 +90,18 @@ function App() {
     });
     let storyText = response.data.choices[0].message.content.split("Option");
     let storyResponse = response.data.choices[0].message.content;
+    // Add the new generated text to the existing story and get the list of options based on the new text
     updateAdventure(storyText[0]);
     getOptions(storyResponse);
   };
 
+  // Define a function to set the genre prompt state based on user input
   const handleGenreClick = (index, genre) => {
     setSelectedGenreIndex(index);
     setGenrePrompt(genre);
   };
 
+  // Define a function to get the list of options from a given story text
   const getOptions = (story) => {
     const options = story.split("Option");
     const optionsArray = options
@@ -88,6 +111,7 @@ function App() {
     return optionsArray;
   };
 
+  // Define a function to display the story with line breaks
   const TextWithLineBreaks = (story) => {
     const lines = story.split("\n");
 
@@ -110,6 +134,7 @@ function App() {
     );
   };
 
+  // Define a function to display the list of options as buttons
   const choiceButtons = (optionChoices) => {
     return (
       <div>
@@ -126,13 +151,14 @@ function App() {
     );
   };
 
+  // Render the app with the corresponding components and states
   return (
     <div className="App">
       <header className="App-header">
         <h3>Adventure Time</h3>
         <h5>Choose your adventure</h5>
         {imageSrc && <img src={imageSrc} alt="Background of the adventure" />}
-        <CharacterCreation genrePrompt={genrePrompt}/>
+        <CharacterCreation genrePrompt={genrePrompt} />
         {!options.length && (
           <>
             <div>
@@ -175,4 +201,5 @@ function App() {
   );
 }
 
+// Export the app as the default entry point of the module
 export default App;

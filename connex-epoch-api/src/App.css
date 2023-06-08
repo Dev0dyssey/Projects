@@ -1,0 +1,47 @@
+.App {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  justify-content: center;
+}
+
+.App-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2f2f2;
+  width: 100vw;
+}
+
+.App-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  overflow-y: scroll;
+}
+
+.App-time {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.App-time-label {
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.App-time-value {
+  font-size: 24px;
+}
+
+.App-metrics {
+  font-size: 18px;
+  white-space: pre-wrap;
+  max-width: 80%;
+}

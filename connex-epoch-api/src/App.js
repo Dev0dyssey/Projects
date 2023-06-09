@@ -22,7 +22,6 @@ const App = () => {
       }
     }, 1000);
 
-    // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
 
@@ -33,10 +32,10 @@ const App = () => {
       loadMetrics();
     }, 30000);
 
-    // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
 
+  // Format the epoch time to a standard time format
   const formatEpochTime = (epochTime) => {
     const date = new Date(epochTime * 1000);
     const hours = date.getUTCHours().toString().padStart(2, '0');
@@ -80,6 +79,7 @@ const App = () => {
     .catch(error => console.error(error));
   };
 
+  // Format the time difference between the server and client in hours, minutes, and seconds
   const formatTimeDifference = () => {
     if (serverTime && clientTime) {
       console.log('Server Time: ', serverTime)

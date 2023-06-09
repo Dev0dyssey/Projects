@@ -9,6 +9,14 @@ This projects uses Express for a local server
 - Navigate to **/server** folder and run node `index.js` to start the Express server
 - Run NPM start from the root folder of the project (**connex-epoch-api**) to start the React App
 
+
+## Additional steps to improve code and performace
+- I have encountered a likely race condition when querying the server and client time, causing the time difference logic to not fire consistently. Would probably look at adding conditional logic to ensure that both server and client time are set before running the time difference calculation
+- Wider and better test coverage. I have run out of time when writing the unit tests, leaving them unfinished. If given more time I would look into completing unit tests for both the frontend and backend, ensuring good code coverage. Focus would be on the key aspects of the code logic
+- Easier way to start up the application. Currently a terminal command needs to be run from two location (server and React app). Would like to write an executable script that would spin up both instances in a single command
+- Ensure the Application UI displays well on mobile devices. CSS does take advantage of the fexbox approach, but did not manage to do full mobile testing before the time limit
+- Possibly look at making the application code more modular, to allow other engineers to use parts of the codebase if they like part of the logic
+
 ## Available Scripts
 
 In the project directory, you can run:

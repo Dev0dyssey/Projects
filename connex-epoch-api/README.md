@@ -1,4 +1,4 @@
-# Connex One API and Frontend technical tas
+# Connex One API and Frontend technical task
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 This projects uses Express for a local server

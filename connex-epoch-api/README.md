@@ -16,6 +16,7 @@ This projects uses Express for a local server
 - Easier way to start up the application. Currently a terminal command needs to be run from two location (server and React app). Would like to write an executable script that would spin up both instances in a single command
 - Ensure the Application UI displays well on mobile devices. CSS does take advantage of the fexbox approach, but did not manage to do full mobile testing before the time limit
 - Possibly look at making the application code more modular, to allow other engineers to use parts of the codebase if they like part of the logic
+- Add TypeScript support to allow easier maintanability as the codebase scales up and new engineers come in to work on it
 
 ## Available Scripts
 

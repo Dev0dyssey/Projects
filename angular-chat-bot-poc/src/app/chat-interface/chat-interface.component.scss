@@ -1,0 +1,27 @@
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    margin: 0 10px;
+    box-sizing: border-box; /* Add this line */
+  
+    &:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+  }
+  
+  button {
+    display: block;
+    margin: 20px auto 0; /* Add margin-top to move the button further down */
+    padding: 12px 24px; /* Add padding to make the button larger */
+    background-color: black; /* Set the background color to black */
+    color: white; /* Set the text color to white */
+    font-weight: bold; /* Set the text to bold */
+    border-radius: 8px; /* Add rounded corners */
+  }

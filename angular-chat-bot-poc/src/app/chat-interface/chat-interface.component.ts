@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ChatService } from '../services/chat-log';
+import { Message } from '../interfaces/message.interface';
 
 @Component({
   selector: 'app-chat-interface',
@@ -14,8 +15,14 @@ export class ChatInterfaceComponent {
   constructor(private chatService: ChatService) { }
 
   submitQuery() {
+    const message: Message = { 
+      sender: 'UserA',
+      message: this.askGuy.value ? this.askGuy.value : 'No message',
+      timestamp: new Date()
+    };
+
     console.log(this.askGuy.value);
-    this.chatService.addMessage('user', this.askGuy.value);
+    this.chatService.addMessage(message);
   }
 
   askGuy = new FormControl('');

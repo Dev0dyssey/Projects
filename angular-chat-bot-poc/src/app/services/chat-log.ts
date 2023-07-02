@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
+import { Message } from '../interfaces/message.interface';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  private chatHistory: { sender: string, message: string }[] = [];
+  private chatHistory: { message: Message }[] = [];
 
   constructor() { }
 
-  addMessage(sender: string, message: any) {
-    this.chatHistory.push({ sender, message });
+  addMessage( message: Message) {
+    this.chatHistory.push({ message });
     console.log("Chat History: ", this.chatHistory);
   }
 

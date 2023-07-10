@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Message } from '../interfaces/message.interface';
 
 @Component({
@@ -12,5 +12,7 @@ export class ChatBubbleComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  @Input() message: any;
 
 }

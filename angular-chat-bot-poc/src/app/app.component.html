@@ -1,4 +1,6 @@
 <h1>GuyGPT Proof of Concept</h1>
 <app-chat-interface></app-chat-interface>
-<app-chat-bubble></app-chat-bubble>
+<div *ngFor="let item of history">
+    <app-chat-bubble [message]="item.message"></app-chat-bubble>
+</div>
 <router-outlet></router-outlet>

@@ -1,1 +1,6 @@
-<p class="chat-bubble">{{message.message}}</p>
+<p
+  [class.userA]="message.sender === 'UserA'"
+  [class.userB]="message.sender === 'UserB'"
+>
+  {{ message.message }}
+</p>

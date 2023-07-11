@@ -1,34 +1,71 @@
 .chat-bubble {
-    background-color: #DCF8C6;
-    border-radius: 20px;
-    padding: 10px;
-    margin: 10px;
-    max-width: 70%;
-    position: relative;
-  }
-  
-  .chat-bubble::before {
-    content: "";
-    position: absolute;
-    border-style: solid;
-    border-width: 10px 10px 10px 0;
-    border-color: transparent #DCF8C6;
-    display: block;
-    width: 0;
-    z-index: 1;
-    left: -10px;
-    top: 10px;
-  }
-  
-  .chat-bubble::after {
-    content: "";
-    position: absolute;
-    border-style: solid;
-    border-width: 10px 10px 10px 0;
-    border-color: transparent #FFFFFF;
-    display: block;
-    width: 0;
-    z-index: 0;
-    left: -8px;
-    top: 10px;
-  }
+  font-size: 16px;
+  line-height: 1.5;
+  display: inline-block;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.userA, .userB {
+  background-color: #DCF8C6;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 10px;
+  max-width: 70%;
+  position: relative;
+}
+
+.userA::before, .userB::before {
+  content: "";
+  position: absolute;
+  border-style: solid;
+  border-width: 10px 10px 10px 0;
+  border-color: transparent #DCF8C6;
+  display: block;
+  width: 0;
+  z-index: 1;
+  top: 10px;
+}
+
+.userA::after, .userB::after {
+  content: "";
+  position: absolute;
+  border-style: solid;
+  border-width: 10px 10px 10px 0;
+  border-color: transparent #FFFFFF;
+  display: block;
+  width: 0;
+  z-index: 0;
+  top: 10px;
+}
+
+.userA {
+  left: 0;
+}
+
+.userA::before {
+  left: -10px;
+}
+
+.userA::after {
+  left: -8px;
+}
+
+.userB {
+  right: 0;
+  background-color: #B2DFFC;
+  top: 0;
+  right: 0;
+  left: auto;
+  z-index: 1;
+}
+
+.userB::before {
+  right: -10px;
+  border-color: transparent #B2DFFC;
+}
+
+.userB::after {
+  right: -8px;
+  border-color: transparent #FFFFFF;
+}

@@ -25,5 +25,15 @@ export class ChatInterfaceComponent {
     this.chatService.addMessage(message);
   }
 
+  answerQuery() {
+    const message: Message = { 
+      sender: 'UserB',
+      message: 'This is a response',
+      timestamp: new Date()
+    };
+
+    this.chatService.addMessage(message);
+  }
+
   askGuy = new FormControl('');
 }

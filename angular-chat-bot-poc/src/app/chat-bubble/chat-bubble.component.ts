@@ -14,5 +14,6 @@ export class ChatBubbleComponent implements OnInit {
   }
 
   @Input() message: any;
+  @Input() sender: any;
 
 }

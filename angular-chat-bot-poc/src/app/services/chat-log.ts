@@ -12,7 +12,6 @@ export class ChatService {
 
   addMessage( message: Message) {
     this.chatHistory.push({ message });
-    console.log("Chat History: ", this.chatHistory);
   }
 
   getChatHistory() {

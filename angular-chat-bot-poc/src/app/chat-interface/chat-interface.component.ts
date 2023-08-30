@@ -20,9 +20,8 @@ export class ChatInterfaceComponent {
       message: this.askGuy.value ? this.askGuy.value : 'No message',
       timestamp: new Date()
     };
-
-    console.log(this.askGuy.value);
     this.chatService.addMessage(message);
+    this.askGuy.reset();
   }
 
   answerQuery() {
@@ -31,8 +30,8 @@ export class ChatInterfaceComponent {
       message: 'This is a response',
       timestamp: new Date()
     };
-
     this.chatService.addMessage(message);
+    this.askGuy.reset();
   }
 
   askGuy = new FormControl('');

@@ -2,15 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-restaurant-card',
-  template: `
-    <div class="card">
-      <img [src]="restaurant.imageUrl" alt="{{ restaurant.name }}" />
-      <h2>{{ restaurant.name }}</h2>
-      <p>{{ restaurant.description }}</p>
-      <button (click)="like.emit()">Like</button>
-      <button (click)="dislike.emit()">Dislike</button>
-    </div>
-  `,
+  templateUrl: './restaurant-card.component.html',
   styles: [`
     .card {
       border: 1px solid #ccc;

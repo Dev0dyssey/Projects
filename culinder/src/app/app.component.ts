@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { RestaurantsService } from './restaurants.service';
 
 @Component({
   selector: 'app-root',
@@ -13,37 +14,27 @@ import { Component } from '@angular/core';
 `,
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  public restaurants: any[] | undefined;
   title = 'culinder';
-  restaurants = [
-    {
-      name: 'Pizza Place',
-      imageUrl: 'https://via.placeholder.com/300x200.png?text=Pizza+Place',
-      description: 'The best pizza in town!'
-    },
-    {
-      name: 'Burger Joint',
-      imageUrl: 'https://via.placeholder.com/300x200.png?text=Burger+Joint',
-      description: 'Juicy burgers and crispy fries!'
-    },
-    {
-      name: 'Sushi Bar',
-      imageUrl: 'https://via.placeholder.com/300x200.png?text=Sushi+Bar',
-      description: 'Fresh sushi and sashimi!'
-    }
-  ];
+  constructor(private restaurantService: RestaurantsService) { };
+
+  ngOnInit() {
+    this.restaurants = this.restaurantService.restaurants;
+  }
 
   onLike(restaurant: any) {
-    const index = this.restaurants.indexOf(restaurant);
-    if (index !== -1) {
-      this.restaurants.splice(index, 1);
-    }
+    const index = this.restaurants?.indexOf(restaurant);
+    restaurant.likes++;
+    // if (index !== -1) {
+    //   this.restaurants.splice(index, 1);
+    // }
   }
 
   onDislike(restaurant: any) {
-    const index = this.restaurants.indexOf(restaurant);
-    if (index !== -1) {
-      this.restaurants.splice(index, 1);
+    const index = this.restaurants?.indexOf(restaurant);
+    if (index !== undefined && index !== -1) {
+      this.restaurants?.splice(index, 1);
     }
   }
 }

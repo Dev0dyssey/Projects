@@ -1,1 +1,7 @@
-<p>restaurant-card works!</p>
+<div class="card">
+    <img [src]="restaurant.imageUrl" alt="{{ restaurant.name }}" />
+    <h2>{{ restaurant.name }} - {{ restaurant.likes }}</h2>
+    <p>{{ restaurant.description }}</p>
+    <button (click)="like.emit()">Like</button>
+    <button (click)="dislike.emit()">Dislike</button>
+  </div>

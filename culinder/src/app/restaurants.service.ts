@@ -21,6 +21,16 @@ export class RestaurantsService {
       name: 'Sushi Bar',
       imageUrl: 'https://via.placeholder.com/300x200.png?text=Sushi+Bar',
       description: 'Fresh sushi and sashimi!',
+      comments: [
+        {
+          name: 'John',
+          comment: 'This is a great place!'
+        },
+        {
+          name: 'Jane',
+          comment: 'I love their sushi!'
+        }
+      ],
       likes: 0,
     }
    ];

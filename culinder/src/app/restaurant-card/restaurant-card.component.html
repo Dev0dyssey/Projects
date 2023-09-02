@@ -1,7 +1,9 @@
 <div class="card">
-    <img [src]="restaurant.imageUrl" alt="{{ restaurant.name }}" />
-    <h2>{{ restaurant.name }} - {{ restaurant.likes }}</h2>
-    <p>{{ restaurant.description }}</p>
-    <button (click)="like.emit()">Like</button>
-    <button (click)="dislike.emit()">Dislike</button>
-  </div>
+  <img [src]="restaurant.imageUrl" alt="{{ restaurant.name }}" />
+  <h2>{{ restaurant.name }} - {{ restaurant.likes }}</h2>
+  <p>{{ restaurant.description }}</p>
+  <button mat-flat-button class="confirm" (click)="like.emit()">Like</button>
+  <button mat-flat-button class="error" (click)="dislike.emit()">
+    Dislike
+  </button>
+</div>

@@ -26,9 +26,6 @@ export class AppComponent implements OnInit {
   onLike(restaurant: any) {
     const index = this.restaurants?.indexOf(restaurant);
     restaurant.likes++;
-    // if (index !== -1) {
-    //   this.restaurants.splice(index, 1);
-    // }
   }
 
   onDislike(restaurant: any) {

@@ -1,0 +1,32 @@
+.card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  max-width: 33%;
+}
+
+img {
+  max-width: 100%;
+}
+
+@media (max-width: 767px) {
+  .card {
+    max-width: 100%;
+  }
+}
+
+button {
+  margin-top: 5px;
+}
+
+.confirm {
+  color: #ccc;
+  background-color: #4caf50;
+}
+
+.error {
+  color: #ccc;
+  background-color: #f44336;
+}

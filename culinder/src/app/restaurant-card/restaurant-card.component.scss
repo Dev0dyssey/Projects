@@ -1,20 +1,21 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 99vh;
+}
+
 .card {
   border: 1px solid #ccc;
   padding: 10px;
   margin: 10px;
   display: flex;
   flex-direction: column;
-  max-width: 33%;
+  max-width: 100%;
+  height: inherit;
 }
 
 img {
   max-width: 100%;
-}
-
-@media (max-width: 767px) {
-  .card {
-    max-width: 100%;
-  }
 }
 
 button {

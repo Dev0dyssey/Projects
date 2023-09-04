@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { RestaurantsService } from './restaurants.service';
 
 @Component({
   selector: 'app-root',
   template: `
-  <div *ngFor="let restaurant of restaurants">
-    <app-restaurant-card
-      [restaurant]="restaurant"
-      (like)="onLike(restaurant)"
-      (dislike)="onDislike(restaurant)"
-    ></app-restaurant-card>
+  <div class="container">
+    <div *ngFor="let restaurant of restaurants ? [restaurants[currentIndex]] : []" class="restaurant-card">
+      <app-restaurant-card
+        [restaurant]="restaurant"
+        (like)="onLike(restaurant)"
+        (dislike)="onDislike(restaurant)"
+      ></app-restaurant-card>
+    </div>
   </div>
 `,
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   public restaurants: any[] | undefined;
+  public currentIndex: number = 0;
   title = 'culinder';
   constructor(private restaurantService: RestaurantsService) { };
 
@@ -24,14 +27,20 @@ export class AppComponent implements OnInit {
   }
 
   onLike(restaurant: any) {
-    const index = this.restaurants?.indexOf(restaurant);
     restaurant.likes++;
+    this.loadNextCard();
   }
 
   onDislike(restaurant: any) {
-    const index = this.restaurants?.indexOf(restaurant);
-    if (index !== undefined && index !== -1) {
-      this.restaurants?.splice(index, 1);
+    restaurant.dislikes++;
+    this.loadNextCard();
+  }
+
+  private loadNextCard() {
+    if (this.currentIndex < this.restaurants!.length - 1) {
+      this.currentIndex++;
+    } else {
+      this.currentIndex = 0;
     }
   }
 }

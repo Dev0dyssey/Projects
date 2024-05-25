@@ -32,6 +32,7 @@
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
+    "@types/papaparse": "^5.3.14",
     "@types/vscode": "^1.76.0",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
@@ -45,6 +46,7 @@
     "axios": "^1.4.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "express-prometheus-middleware": "^1.2.0"
+    "express-prometheus-middleware": "^1.2.0",
+    "papaparse": "^5.4.1"
   }
 }

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { from } from 'rxjs';
+import { environment } from '../environments/environment';
+import * as Papa from 'papaparse';
 import OpenAI from 'openai';
 
 @Component({
@@ -8,29 +9,59 @@ import OpenAI from 'openai';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'projection-forecasts-poc';
-  openai = new OpenAI({});
+  openai = new OpenAI({
+    apiKey: environment.OPENAI_API_KEY,
+    dangerouslyAllowBrowser: true,
+  });
   completion: any;
-  completionSubscription: any;
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  ngOnInit(): void {
-    const completion$ = from(
-      this.openai.chat.completions.create({
-        messages: [{ role: 'system', content: 'You are a helpful assistant.' }],
-        model: 'gpt-3.5-turbo',
-      })
-    );
+  @ViewChild('fileInput') fileInput!: ElementRef;
 
-    this.completionSubscription = completion$.subscribe((completion) => {
-      this.completion = completion;
-      console.log(this.completion.choices[0]);
+  createPromptFromData(data: any[]): string {
+    return `Can you generate a predicted weather pattern based on the provided data: ${JSON.stringify(
+      data
+    )}`;
+  }
+
+  onFileUpload(event: any) {
+    const file = this.fileInput.nativeElement.files[0];
+    console.log('File Uploaded: ', file);
+    this.processData(file);
+  }
+
+  processData(csvData: string) {
+    Papa.parse(csvData, {
+      header: true,
+      complete: (result) => {
+        console.log('Parsed Data:', result.data);
+        this.sendDataToAPI(result.data);
+      },
     });
   }
 
-  ngOnDestroy(): void {
-    this.completionSubscription.unsubscribe();
+  sendDataToAPI(data: any[]) {
+    const prompt = this.createPromptFromData(data);
+
+    this.http
+      .post(
+        'https://api.openai.com/v1/chat/completions',
+        {
+          messages: [{ role: 'system', content: prompt }],
+          model: 'gpt-4o',
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${environment.OPENAI_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .subscribe((response) => {
+        console.log('API Response:', response);
+      });
   }
 }

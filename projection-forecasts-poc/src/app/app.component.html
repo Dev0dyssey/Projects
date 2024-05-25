@@ -11,6 +11,11 @@
     <label for="file">Projection Forecasts:</label>
     <input type="file" id="file" name="file" accept=".csv" #fileInput />
     <br />
-    <button type="submit">Upload</button>
+    <button
+      type="submit"
+      (click)="onFileUpload($event); $event.preventDefault()"
+    >
+      Upload
+    </button>
   </form>
 </div>

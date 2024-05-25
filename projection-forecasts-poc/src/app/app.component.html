@@ -6,14 +6,7 @@
     height: 100vh;
   "
 >
-  <form
-    (submit)="
-      fileInput && fileInput.files && fileInput.files.length > 0
-        ? uploadFile(fileInput.files[0])
-        : null;
-      $event.preventDefault()
-    "
-  >
+  <form>
     <h2>Upload CSV File</h2>
     <label for="file">Projection Forecasts:</label>
     <input type="file" id="file" name="file" accept=".csv" #fileInput />

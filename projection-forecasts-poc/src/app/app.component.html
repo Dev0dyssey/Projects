@@ -1,0 +1,23 @@
+<div
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  "
+>
+  <form
+    (submit)="
+      fileInput && fileInput.files && fileInput.files.length > 0
+        ? uploadFile(fileInput.files[0])
+        : null;
+      $event.preventDefault()
+    "
+  >
+    <h2>Upload CSV File</h2>
+    <label for="file">Projection Forecasts:</label>
+    <input type="file" id="file" name="file" accept=".csv" #fileInput />
+    <br />
+    <button type="submit">Upload</button>
+  </form>
+</div>

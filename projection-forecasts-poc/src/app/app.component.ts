@@ -16,7 +16,7 @@ export class AppComponent {
   createPromptFromData(data: any[]): string {
     return `Can you generate a predicted weather pattern based on the provided data: ${JSON.stringify(
       data
-    )}`;
+    )}. Return the answer in list format.`;
   }
 
   onFileUpload(event: any) {

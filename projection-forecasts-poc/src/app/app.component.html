@@ -24,7 +24,12 @@
       </button>
     </div>
   </form>
-  <div class="d-flex justify-content-center">
+  @if(results) {
+  <div class="d-flex flex-column justify-content-center align-items-center">
     <h5>Results:</h5>
+    <div>
+      {{ results.choices[0].message.content }}
+    </div>
   </div>
+  }
 </div>

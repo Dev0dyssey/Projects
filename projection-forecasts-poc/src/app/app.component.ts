@@ -2,7 +2,6 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import * as Papa from 'papaparse';
-import OpenAI from 'openai';
 
 @Component({
   selector: 'app-root',
@@ -10,16 +9,9 @@ import OpenAI from 'openai';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'projection-forecasts-poc';
-  openai = new OpenAI({
-    apiKey: environment.OPENAI_API_KEY,
-    dangerouslyAllowBrowser: true,
-  });
-  completion: any;
-
   constructor(private http: HttpClient) {}
-
   @ViewChild('fileInput') fileInput!: ElementRef;
+  results: any;
 
   createPromptFromData(data: any[]): string {
     return `Can you generate a predicted weather pattern based on the provided data: ${JSON.stringify(
@@ -62,6 +54,7 @@ export class AppComponent {
       )
       .subscribe((response) => {
         console.log('API Response:', response);
+        this.results = response;
       });
   }
 }

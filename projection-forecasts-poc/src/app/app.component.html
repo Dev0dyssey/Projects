@@ -1,21 +1,30 @@
 <div
-  style="
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  "
+  class="d-flex flex-column justify-content-center align-items-center vh-100"
 >
-  <form>
-    <h2>Upload CSV File</h2>
-    <label for="file">Projection Forecasts:</label>
-    <input type="file" id="file" name="file" accept=".csv" #fileInput />
-    <br />
-    <button
-      type="submit"
-      (click)="onFileUpload($event); $event.preventDefault()"
-    >
-      Upload
-    </button>
+  <form class="d-flex flex-column align-items-center mb-3">
+    <h2 class="mb-3">Upload CSV File</h2>
+    <div class="mb-3">
+      <label for="file" class="form-label">Projection Forecasts:</label>
+      <input
+        type="file"
+        class="form-control"
+        id="file"
+        name="file"
+        accept=".csv"
+        #fileInput
+      />
+    </div>
+    <div>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        (click)="onFileUpload($event); $event.preventDefault()"
+      >
+        Upload
+      </button>
+    </div>
   </form>
+  <div class="d-flex justify-content-center">
+    <h5>Results:</h5>
+  </div>
 </div>

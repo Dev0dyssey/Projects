@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "projection-forecasts-poc:build:production"
+              "buildTarget": "projection-forecasts-poc:build:production"
             },
             "development": {
-              "browserTarget": "projection-forecasts-poc:build:development"
+              "buildTarget": "projection-forecasts-poc:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "projection-forecasts-poc:build"
+            "buildTarget": "projection-forecasts-poc:build"
           }
         },
         "test": {

@@ -2,9 +2,9 @@
   class="d-flex flex-column justify-content-center align-items-center vh-100"
 >
   <form class="d-flex flex-column align-items-center mb-3">
-    <h2 class="mb-3">Upload CSV File</h2>
+    <h2 class="mb-3">Projectio Forecasts (PoC)</h2>
     <div class="mb-3">
-      <label for="file" class="form-label">Projection Forecasts:</label>
+      <label for="file" class="form-label">Upload CSV File:</label>
       <input
         type="file"
         class="form-control"
@@ -13,6 +13,13 @@
         accept=".csv"
         #fileInput
       />
+    </div>
+    <div>
+      <textarea
+        style="width: 325px"
+        (input)="onCustomPropmptInput($event)"
+        placeholder="Enter Custom Prompt"
+      ></textarea>
     </div>
     <div>
       <button

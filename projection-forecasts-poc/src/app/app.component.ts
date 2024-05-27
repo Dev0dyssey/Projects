@@ -12,17 +12,28 @@ export class AppComponent {
   constructor(private http: HttpClient) {}
   @ViewChild('fileInput') fileInput!: ElementRef;
   results: any;
+  customPrompt: string = '';
 
   createPromptFromData(data: any[]): string {
+    if (this.customPrompt) {
+      return `${this.customPrompt} for the provided data: ${JSON.stringify(
+        data
+      )}`;
+    }
     return `Can you generate a predicted weather pattern based on the provided data: ${JSON.stringify(
       data
-    )}. Return the answer in list format.`;
+    )}.`;
   }
 
   onFileUpload(event: any) {
     const file = this.fileInput.nativeElement.files[0];
     console.log('File Uploaded: ', file);
     this.processData(file);
+  }
+
+  onCustomPropmptInput(event: any) {
+    this.customPrompt = event.target.value;
+    console.log('Custom Prompt: ', this.customPrompt);
   }
 
   processData(csvData: string) {

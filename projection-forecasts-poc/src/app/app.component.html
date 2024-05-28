@@ -1,5 +1,5 @@
 <div
-  class="d-flex flex-column justify-content-center align-items-center vh-100"
+  class="d-flex flex-column justify-content-center align-items-center min-vh-100"
 >
   <form class="d-flex flex-column align-items-center mb-3">
     <h2 class="mb-3">Projectio Forecasts (PoC)</h2>
@@ -34,9 +34,9 @@
   @if(results) {
   <div class="d-flex flex-column justify-content-center align-items-center">
     <h5>Results:</h5>
-    <div>
-      {{ results.choices[0].message.content }}
-    </div>
+    @for (result of results; track $index) {
+    <div>{{ result }}</div>
+    }
   </div>
   }
 </div>

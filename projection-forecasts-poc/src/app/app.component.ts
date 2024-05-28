@@ -22,7 +22,7 @@ export class AppComponent {
     }
     return `Can you generate a predicted weather pattern based on the provided data: ${JSON.stringify(
       data
-    )}.`;
+    )} splitting each section with a new line character. Return the data but do not mention the new line character. Also strip out {} symbols and align the response by date under one another `;
   }
 
   onFileUpload(event: any) {
@@ -50,7 +50,7 @@ export class AppComponent {
     const prompt = this.createPromptFromData(data);
 
     this.http
-      .post(
+      .post<ApiResponse>(
         'https://api.openai.com/v1/chat/completions',
         {
           messages: [{ role: 'system', content: prompt }],
@@ -63,9 +63,33 @@ export class AppComponent {
           },
         }
       )
-      .subscribe((response) => {
-        console.log('API Response:', response);
-        this.results = response;
+      .subscribe((response: ApiResponse) => {
+        console.log('API Response:', response.choices[0].message.content);
+        this.results = response.choices[0].message.content
+          .replace(/date:/g, 'date:')
+          .split('date:');
       });
   }
+}
+
+interface ApiResponse {
+  id: string;
+  object: string;
+  created: number;
+  model: string;
+  choices: {
+    index: number;
+    message: {
+      role: string;
+      content: string;
+    };
+    logprobs: null;
+    finish_reason: string;
+  }[];
+  usage: {
+    prompt_tokens: number;
+    completion_tokens: number;
+    total_tokens: number;
+  };
+  system_fingerprint: string;
 }

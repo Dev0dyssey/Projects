@@ -11,6 +11,7 @@ import * as Papa from 'papaparse';
 export class AppComponent {
   constructor(private http: HttpClient) {}
   @ViewChild('fileInput') fileInput!: ElementRef;
+  @ViewChild('imageInput') imageInput!: ElementRef;
   results: any;
   customPrompt: string = '';
 
@@ -27,7 +28,12 @@ export class AppComponent {
 
   onFileUpload(event: any) {
     const file = this.fileInput.nativeElement.files[0];
-    console.log('File Uploaded: ', file);
+    const image = this.imageInput.nativeElement.files[0];
+    if (image) {
+      console.log('Image:', image);
+    } else if (file) {
+      console.log('File:', file);
+    }
     this.processData(file);
   }
 

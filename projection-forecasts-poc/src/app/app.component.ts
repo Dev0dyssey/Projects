@@ -12,8 +12,23 @@ export class AppComponent {
   constructor(private http: HttpClient) {}
   @ViewChild('fileInput') fileInput!: ElementRef;
   @ViewChild('imageInput') imageInput!: ElementRef;
+  uploadEnabled: boolean | null = false;
   results: any;
   customPrompt: string = '';
+
+  encodeImageToBase64(image: File) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64String = (reader.result as string).split(',')[1];
+      this.sendImageToAPI(base64String);
+    };
+    reader.readAsDataURL(image);
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.uploadEnabled = input.files && input.files.length > 0;
+  }
 
   createPromptFromData(data: any[]): string {
     if (this.customPrompt) {
@@ -30,16 +45,14 @@ export class AppComponent {
     const file = this.fileInput.nativeElement.files[0];
     const image = this.imageInput.nativeElement.files[0];
     if (image) {
-      console.log('Image:', image);
+      this.encodeImageToBase64(image);
     } else if (file) {
-      console.log('File:', file);
+      this.processData(file);
     }
-    this.processData(file);
   }
 
   onCustomPropmptInput(event: any) {
     this.customPrompt = event.target.value;
-    console.log('Custom Prompt: ', this.customPrompt);
   }
 
   processData(csvData: string) {
@@ -54,7 +67,6 @@ export class AppComponent {
 
   sendDataToAPI(data: any[]) {
     const prompt = this.createPromptFromData(data);
-
     this.http
       .post<ApiResponse>(
         'https://api.openai.com/v1/chat/completions',
@@ -74,6 +86,40 @@ export class AppComponent {
         this.results = response.choices[0].message.content
           .replace(/date:/g, 'date:')
           .split('date:');
+      });
+  }
+
+  sendImageToAPI(base64Image: string) {
+    const prompt = this.customPrompt || 'Analyse the attached image';
+
+    this.http
+      .post<ApiResponse>(
+        'https://api.openai.com/v1/chat/completions',
+        {
+          messages: [
+            {
+              role: 'user',
+              content: [
+                { type: 'text', text: prompt },
+                {
+                  type: 'image_url',
+                  image_url: { url: `data:image/png;base64,${base64Image}` },
+                },
+              ],
+            },
+          ],
+          model: 'gpt-4o',
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${environment.OPENAI_API_KEY}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .subscribe((response: ApiResponse) => {
+        console.log('API Image Response:', response.choices[0].message.content);
+        this.results = response.choices[0].message.content;
       });
   }
 }

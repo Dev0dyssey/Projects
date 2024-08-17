@@ -1,20 +1,30 @@
 <div
-  class="d-flex flex-column justify-content-center align-items-center min-vh-100"
+  class="main d-flex flex-column justify-content-center align-items-center min-vh-100"
 >
-  <form class="d-flex flex-column align-items-center mb-3">
-    <h2 class="mb-3">Projectio Forecasts (PoC)</h2>
-    <div class="mb-3">
-      <label for="file" class="form-label">Upload CSV File:</label>
-      <input
-        type="file"
-        class="form-control"
-        id="file"
-        name="file"
-        accept=".csv"
-        #fileInput
-      />
+  <form
+    class="data-upload d-flex flex-column align-items-center border border-secondary rounded mb-3 p-3"
+  >
+    <h2 class="title-primary mb-5">Projection Forecasts (PoC)</h2>
+    <div class="mb-5">
       <div class="mb-3">
-        <label for="image" class="form-label">Upload Image:</label>
+        <label for="file" class="title-primary form-label"
+          >Upload CSV File:</label
+        >
+        <input
+          type="file"
+          class="form-control"
+          id="file"
+          name="file"
+          accept=".csv"
+          #fileInput
+          (change)="onFileSelected($event)"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="image" class="title-primary form-label"
+          >Upload Image:</label
+        >
         <input
           type="file"
           class="form-control"
@@ -22,12 +32,13 @@
           name="image"
           accept="image/*"
           #imageInput
+          (change)="onFileSelected($event)"
         />
       </div>
     </div>
-    <div>
+    <div class="mb-2">
       <textarea
-        style="width: 325px"
+        style="width: 325px; min-height: 250px"
         (input)="onCustomPropmptInput($event)"
         placeholder="Enter Custom Prompt"
       ></textarea>
@@ -36,6 +47,7 @@
       <button
         type="submit"
         class="btn btn-primary"
+        [disabled]="!uploadEnabled"
         (click)="onFileUpload($event); $event.preventDefault()"
       >
         Upload
@@ -45,8 +57,10 @@
   @if(results) {
   <div class="d-flex flex-column justify-content-center align-items-center">
     <h5>Results:</h5>
-    @for (result of results; track $index) {
+    @if(results.lenght){ @for (result of results; track $index) {
     <div>{{ result }}</div>
+    }} @else {
+    <div>{{ results }}</div>
     }
   </div>
   }

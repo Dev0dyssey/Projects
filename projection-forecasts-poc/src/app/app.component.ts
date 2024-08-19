@@ -105,6 +105,7 @@ export class AppComponent {
                   type: 'image_url',
                   image_url: { url: `data:image/png;base64,${base64Image}` },
                 },
+                // { type: 'text', text: 'Tell me a random fact about physics' },
               ],
             },
           ],
@@ -118,6 +119,7 @@ export class AppComponent {
         }
       )
       .subscribe((response: ApiResponse) => {
+        console.log('Response: ', response);
         console.log('API Image Response:', response.choices[0].message.content);
         this.results = response.choices[0].message.content;
       });

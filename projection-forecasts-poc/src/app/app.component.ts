@@ -15,44 +15,21 @@ export class AppComponent {
   uploadEnabled: boolean | null = false;
   results: any;
   customPrompt: string = '';
-
-  encodeImageToBase64(image: File) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64String = (reader.result as string).split(',')[1];
-      this.sendImageToAPI(base64String);
-    };
-    reader.readAsDataURL(image);
-  }
+  base64Image: string = '';
+  parsedCsvData: any;
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
-    this.uploadEnabled = input.files && input.files.length > 0;
-  }
-
-  createPromptFromData(data: any[]): string {
-    if (this.customPrompt) {
-      return `${this.customPrompt} for the provided data: ${JSON.stringify(
-        data
-      )}`;
-    }
-    return `Can you generate a predicted weather pattern based on the provided data: ${JSON.stringify(
-      data
-    )} splitting each section with a new line character. Return the data but do not mention the new line character. Also strip out {} symbols and align the response by date under one another `;
-  }
-
-  onFileUpload(event: any) {
     const file = this.fileInput.nativeElement.files[0];
-    const image = this.imageInput.nativeElement.files[0];
-    if (image) {
-      this.encodeImageToBase64(image);
-    } else if (file) {
-      this.processData(file);
-    }
+    this.uploadEnabled = input.files && input.files.length > 0;
+    this.processData(file);
   }
 
-  onCustomPropmptInput(event: any) {
-    this.customPrompt = event.target.value;
+  onImageSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const image = this.imageInput.nativeElement.files[0];
+    this.uploadEnabled = input.files && input.files.length > 0;
+    this.encodeImageToBase64(image);
   }
 
   processData(csvData: string) {
@@ -60,37 +37,32 @@ export class AppComponent {
       header: true,
       complete: (result) => {
         console.log('Parsed Data:', result.data);
-        this.sendDataToAPI(result.data);
+        this.parsedCsvData = result.data;
       },
     });
   }
 
-  sendDataToAPI(data: any[]) {
-    const prompt = this.createPromptFromData(data);
-    this.http
-      .post<ApiResponse>(
-        'https://api.openai.com/v1/chat/completions',
-        {
-          messages: [{ role: 'system', content: prompt }],
-          model: 'gpt-4o',
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${environment.OPENAI_API_KEY}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-      .subscribe((response: ApiResponse) => {
-        console.log('API Response:', response.choices[0].message.content);
-        this.results = response.choices[0].message.content
-          .replace(/date:/g, 'date:')
-          .split('date:');
-      });
+  encodeImageToBase64(image: File) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64String = (reader.result as string).split(',')[1];
+      this.base64Image = base64String;
+    };
+    reader.readAsDataURL(image);
   }
 
-  sendImageToAPI(base64Image: string) {
-    const prompt = this.customPrompt || 'Analyse the attached image';
+  onFileUpload(event: any) {
+    this.sendDataToAPI(this.parsedCsvData, this.base64Image);
+  }
+
+  onCustomPropmptInput(event: any) {
+    this.customPrompt = event.target.value;
+  }
+
+  sendDataToAPI(file: any, base64Image: string) {
+    const prompt =
+      this.customPrompt ||
+      'Analyse the attached image and make predictions of future behaviour, as well as weekly pattern';
 
     this.http
       .post<ApiResponse>(
@@ -103,9 +75,16 @@ export class AppComponent {
                 { type: 'text', text: prompt },
                 {
                   type: 'image_url',
-                  image_url: { url: `data:image/png;base64,${base64Image}` },
+                  image_url: {
+                    url: `data:image/png;base64,${base64Image}`,
+                  },
                 },
-                // { type: 'text', text: 'Tell me a random fact about physics' },
+                {
+                  type: 'text',
+                  text: `Can you generate a predicted weather pattern based on the provided data: ${JSON.stringify(
+                    file
+                  )} splitting each section with a new line character. Return the data but do not mention the new line character. Also strip out {} symbols and align the response by date under one another `,
+                },
               ],
             },
           ],

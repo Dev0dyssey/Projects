@@ -32,7 +32,7 @@
           name="image"
           accept="image/*"
           #imageInput
-          (change)="onFileSelected($event)"
+          (change)="onImageSelected($event)"
         />
       </div>
     </div>
@@ -55,13 +55,12 @@
     </div>
   </form>
   @if(results) {
-  <div class="d-flex flex-column justify-content-center align-items-center">
+  <div
+    class="d-flex flex-column justify-content-center align-items-center"
+    style="color: whitesmoke"
+  >
     <h5>Results:</h5>
-    @if(results.lenght){ @for (result of results; track $index) {
-    <div>{{ result }}</div>
-    }} @else {
     <div>{{ results }}</div>
-    }
   </div>
   }
 </div>

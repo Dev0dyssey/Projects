@@ -1,12 +1,14 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
+import { marked } from 'marked';
 import * as Papa from 'papaparse';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  standalone: true,
 })
 export class AppComponent {
   constructor(private http: HttpClient) {}
@@ -62,7 +64,7 @@ export class AppComponent {
   sendDataToAPI(file: any, base64Image: string) {
     const prompt =
       this.customPrompt ||
-      'Analyse the attached image and make predictions of future behaviour, as well as weekly pattern';
+      'Analyse the attached image and make predictions of future behaviour, as well as weekly pattern. Begin the response with the word IMAGE:';
 
     this.http
       .post<ApiResponse>(
@@ -76,14 +78,14 @@ export class AppComponent {
                 {
                   type: 'image_url',
                   image_url: {
-                    url: `data:image/png;base64,${base64Image}`,
+                    url: `data:image/jpg;base64,${base64Image}`,
                   },
                 },
                 {
                   type: 'text',
-                  text: `Can you generate a predicted weather pattern based on the provided data: ${JSON.stringify(
+                  text: `Can you generate a predicted data pattern based on the provided data: ${JSON.stringify(
                     file
-                  )} splitting each section with a new line character. Return the data but do not mention the new line character. Also strip out {} symbols and align the response by date under one another `,
+                  )}. Present it in a way that is easy to understand. Begin the response with the word PREDICTION:`,
                 },
               ],
             },
@@ -100,7 +102,7 @@ export class AppComponent {
       .subscribe((response: ApiResponse) => {
         console.log('Response: ', response);
         console.log('API Image Response:', response.choices[0].message.content);
-        this.results = response.choices[0].message.content;
+        this.results = marked.parse(response.choices[0].message.content);
       });
   }
 }

@@ -57,6 +57,10 @@ export class AppComponent {
     this.sendDataToAPI(this.parsedCsvData, this.base64Image);
   }
 
+  clearResults() {
+    this.results = null;
+  }
+
   onCustomPropmptInput(event: any) {
     this.customPrompt = event.target.value;
   }
@@ -64,7 +68,7 @@ export class AppComponent {
   sendDataToAPI(file: any, base64Image: string) {
     const prompt =
       this.customPrompt ||
-      'Analyse the attached image and make predictions of future behaviour, as well as weekly pattern. Begin the response with the word IMAGE:';
+      'Analyse the attached image and make predictions of future behaviour, as well as weekly pattern.';
 
     this.http
       .post<ApiResponse>(
@@ -78,12 +82,12 @@ export class AppComponent {
                 {
                   type: 'image_url',
                   image_url: {
-                    url: `data:image/jpg;base64,${base64Image}`,
+                    url: `data:image/png;base64,${base64Image}`,
                   },
                 },
                 {
                   type: 'text',
-                  text: `Can you generate a predicted data pattern based on the provided data: ${JSON.stringify(
+                  text: `Use the provided data to assign which providers to use to cover the energy usage which has been shown in the previous image: ${JSON.stringify(
                     file
                   )}. Present it in a way that is easy to understand. Begin the response with the word PREDICTION:`,
                 },

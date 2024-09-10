@@ -43,7 +43,7 @@
         placeholder="Enter Custom Prompt"
       ></textarea>
     </div>
-    <div>
+    <div class="mb-1">
       <button
         type="submit"
         class="btn btn-primary"
@@ -53,6 +53,18 @@
         Upload
       </button>
     </div>
+    @if(results) {
+    <div class="mt-1">
+      <button
+        type="clear"
+        class="btn btn-danger"
+        [disabled]="!results"
+        (click)="clearResults()"
+      >
+        Clear Results
+      </button>
+    </div>
+    }
   </form>
   @if(results) {
   <div

@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { marked } from 'marked';
+import { assets } from 'src/data/assets';
 import * as Papa from 'papaparse';
 
 @Component({

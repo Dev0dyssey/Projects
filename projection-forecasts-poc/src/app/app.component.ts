@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { marked } from 'marked';
 import { assets } from 'src/data/assets';
+import { sampleDispatchInstruction } from 'src/data/dispatch-instruction-model';
 import * as Papa from 'papaparse';
 
 @Component({
@@ -88,9 +89,13 @@ export class AppComponent {
                 },
                 {
                   type: 'text',
-                  text: `Use the provided data to assign which providers to use to cover the energy usage which has been shown in the previous image: ${JSON.stringify(
-                    file
-                  )}. Present it in a way that is easy to understand. Begin the response with the word PREDICTION:`,
+                  text: `Use the provided assets data to assign which assets to use to cover the energy usage which has been shown in the previous image: ${JSON.stringify(
+                    assets
+                  )}. 
+                  Present it in a way that is easy to understand. Begin the response with the word PREDICTION:. 
+                  Once done can you also generate an array of Dispatch Instructions to be sent to the API based on the suggested assets. Use ${JSON.stringify(
+                    sampleDispatchInstruction
+                  )} as a model for the dispatch instructions.`,
                 },
               ],
             },

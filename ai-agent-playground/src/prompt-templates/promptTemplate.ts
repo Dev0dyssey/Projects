@@ -17,6 +17,8 @@ Observation: the result of the action
 Thought: I now know the final answer
 Final Answer: the final answer to the original input question
 
+If you do not know the answer or none of the tools are deemed useful, you can say "I don't know" or "I cannot help with that".
+
 Begin!
 Question: {question}
 {react_history}

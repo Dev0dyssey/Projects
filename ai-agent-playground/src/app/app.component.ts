@@ -1,59 +1,25 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import * as Papa from 'papaparse';
+import { reactPromptTemplate } from 'src/prompt-templates/promptTemplate';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  imports: [CommonModule, RouterModule, HttpClientModule],
   standalone: true,
 })
 export class AppComponent {
   constructor(private http: HttpClient) {}
-  @ViewChild('fileInput') fileInput!: ElementRef;
-  @ViewChild('imageInput') imageInput!: ElementRef;
-  uploadEnabled: boolean | null = false;
   results: any;
   customPrompt: string = '';
-  base64Image: string = '';
-  parsedCsvData: any;
 
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const file = this.fileInput.nativeElement.files[0];
-    this.uploadEnabled = input.files && input.files.length > 0;
-    this.processData(file);
-  }
-
-  onImageSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const image = this.imageInput.nativeElement.files[0];
-    this.uploadEnabled = input.files && input.files.length > 0;
-    this.encodeImageToBase64(image);
-  }
-
-  processData(csvData: string) {
-    Papa.parse(csvData, {
-      header: true,
-      complete: (result) => {
-        console.log('Parsed Data:', result.data);
-        this.parsedCsvData = result.data;
-      },
-    });
-  }
-
-  encodeImageToBase64(image: File) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const base64String = (reader.result as string).split(',')[1];
-      this.base64Image = base64String;
-    };
-    reader.readAsDataURL(image);
-  }
-
-  onFileUpload(event: any) {
-    this.sendDataToAPI(this.parsedCsvData, this.base64Image);
+  askAgent(): any {
+    console.log('Asking agent...');
+    this.sendDataToAPI();
   }
 
   clearResults() {
@@ -64,10 +30,8 @@ export class AppComponent {
     this.customPrompt = event.target.value;
   }
 
-  sendDataToAPI(file: any, base64Image: string) {
-    const prompt =
-      this.customPrompt ||
-      'Analyse the attached image and make predictions of future behaviour, as well as weekly pattern.';
+  sendDataToAPI() {
+    const prompt = reactPromptTemplate;
 
     this.http
       .post<ApiResponse>(

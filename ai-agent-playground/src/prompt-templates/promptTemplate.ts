@@ -6,11 +6,12 @@ Use the following tools:
 - characterRetrieval:  Searches for relevant character information on WoW Armoury. Use this when you need to find out more information about the character.
 - logAnalysis: Analyze provided Warcraft logs for the specific character. Use this when you need to do a performance analysis of the dungeon or encounter.
 - searchQuery: Queries internet for information. Use when you need to get small pieces of additional information.
+- chatQueryTool: Chat with the agent. Use this when you need to have a conversation with the agent. Use this as a default tool when you are not sure which tool to use.
 
 Follow this format:
 Question: the input question you must answer
 Thought: you should always think about what to do
-Action: the action to take, should be one of [characterRetrieval, logAnalysis, searchQuery]
+Action: the action to take, should be one of [characterRetrieval, logAnalysis, searchQuery, chatQueryTool]
 Action Input: the input to the action
 Observation: the result of the action
 ... (this Thought/Action/Action Input/Observation can repeat N times)

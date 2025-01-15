@@ -22,6 +22,11 @@ export class AppComponent {
     this.sendDataToAPI();
   }
 
+  chatQueryTool(): any {
+    console.log('Chatting with the agent...');
+    this.sendDataToAPI('Hello, how are you? Please respond with a greeting.');
+  }
+
   clearResults() {
     this.results = null;
   }
@@ -30,7 +35,7 @@ export class AppComponent {
     this.customPrompt = event.target.value;
   }
 
-  sendDataToAPI() {
+  sendDataToAPI(promptInput?: string): any {
     const prompt = reactPromptTemplate;
 
     this.http

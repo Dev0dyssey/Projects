@@ -14,7 +14,7 @@ import { reactPromptTemplate } from 'src/prompt-templates/promptTemplate';
   standalone: true,
 })
 export class AppComponent {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
   results: any;
   customPrompt: string = '';
   reactHistory: string = '';
@@ -110,24 +110,10 @@ export class AppComponent {
 
     try {
       const response = await this.http
-        .post<ApiResponse>(
-          'https://api.openai.com/v1/chat/completions',
-          {
-            messages: [
-              {
-                role: 'user',
-                content: prompt,
-              },
-            ],
-            model: 'gpt-4o',
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${environment.OPENAI_API_KEY}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        )
+        .post<ApiResponse>('/api/agent', {
+          prompt,
+          reactHistory: this.reactHistory,
+        })
         .toPromise();
 
       if (!response) {
@@ -141,6 +127,7 @@ export class AppComponent {
       // Update reactHistory with the new information
       const responseText = response.choices[0].message.content;
       this.reactHistory += `\n${responseText}`;
+      console.log('Updated reactHistory:', this.reactHistory);
 
       return response;
     } catch (error) {

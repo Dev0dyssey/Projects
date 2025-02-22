@@ -1,0 +1,18 @@
+<header aria-label="Registration Header" data-test="registration-header">
+  <h3>Registration Flow</h3>
+</header>
+<section aria-label="Registration section" data-test="registration-section">
+  <div>
+    <label for="message">Your Message:</label>
+    <input
+      type="text"
+      id="message"
+      [ngModel]="userMessage()"
+      (ngModelChange)="userMessage.set($event)"
+    />
+    <button (click)="onSubmit()">Send</button>
+  </div>
+  <div>
+    <p>Server Response: {{ messageSignal()?.definition }}</p>
+  </div>
+</section>

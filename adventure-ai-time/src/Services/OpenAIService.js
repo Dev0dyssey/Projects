@@ -123,4 +123,5 @@ class OpenAIService {
     }
   }
   
-  export default new OpenAIService();
+  const openAIServiceInstance = new OpenAIService();
+  export default openAIServiceInstance;

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 const TextToSpeech = () => {
   const [text, setText] = useState('Hello, I am your Storyteller!');

@@ -25,7 +25,7 @@ const CharacterCreation = (props) => {
     console.log("Character Gender:", characterGender);
     console.log("Genre Prompt:", genrePrompt);
     const response = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
@@ -47,7 +47,7 @@ const CharacterCreation = (props) => {
 
   const characterSummary = async (character) => {
     const response = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "system",

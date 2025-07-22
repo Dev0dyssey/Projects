@@ -38,7 +38,7 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^7.0.3",
+    "sass": "^1.89.2",
     "sass-loader": "^13.2.0"
   }
 }
